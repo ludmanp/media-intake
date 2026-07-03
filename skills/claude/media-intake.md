@@ -19,6 +19,7 @@ Useful commands:
 ```bash
 media-intake extract /path/to/voice.ogg --output /tmp/voice-packet --metadata-only
 media-intake extract /path/to/demo.mp4 --output /tmp/demo-packet --dry-run
+media-intake extract /path/to/voice.ogg --output /tmp/voice-packet --lang ru
 media-intake extract "https://www.youtube.com/watch?v=puen8F_IPkQ" --output /tmp/youtube-packet --profile ai-digest --metadata-only
 media-intake inspect /tmp/youtube-packet
 media-intake cleanup /tmp/youtube-packet --remove-cache

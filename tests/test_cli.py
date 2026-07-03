@@ -35,6 +35,24 @@ class CliTests(unittest.TestCase):
             manifest = json.loads((Path(tmp) / "manifest.json").read_text())
             self.assertEqual(manifest["status"], "dry-run")
 
+    def test_extract_dry_run_accepts_whisper_options(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.run_cli(
+                "extract",
+                "/tmp/voice.ogg",
+                "--output",
+                tmp,
+                "--dry-run",
+                "--lang",
+                "ru",
+                "--whisper-model",
+                "/models/custom.bin",
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("-l ru", result.stdout)
+            self.assertIn("/models/custom.bin", result.stdout)
+
     def test_inspect_prints_summary(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.run_cli("extract", "/tmp/demo.mp4", "--output", tmp, "--metadata-only")

@@ -36,6 +36,7 @@ project-owned entrypoint.
 ```bash
 media-intake extract /path/to/voice.ogg --output /tmp/voice-packet --metadata-only
 media-intake extract /path/to/demo.mp4 --output /tmp/demo-packet --dry-run
+media-intake extract /path/to/voice.ogg --output /tmp/voice-packet --lang ru
 media-intake inspect /tmp/demo-packet
 media-intake cleanup /tmp/demo-packet --remove-cache
 ```

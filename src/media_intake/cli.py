@@ -33,6 +33,9 @@ def build_parser() -> argparse.ArgumentParser:
     extract.add_argument("--dry-run", action="store_true")
     extract.add_argument("--overwrite", action="store_true")
     extract.add_argument("--profile", choices=["generic", "ai-digest", "tron-wiki"], default="generic")
+    extract.add_argument("--lang", default="auto")
+    extract.add_argument("--whisper-bin", default="whisper-cli")
+    extract.add_argument("--whisper-model")
     extract.set_defaults(func=cmd_extract)
 
     inspect = subparsers.add_parser("inspect", help="Print packet summary")
@@ -62,7 +65,13 @@ def cmd_extract(args: argparse.Namespace) -> int:
         update_manifest_status(packet, "metadata-only", outputs=outputs)
         print(f"packet: {packet.root}")
         return 0
-    run_distillation(packet, dry_run=args.dry_run)
+    distill_kwargs = {
+        "lang": args.lang,
+        "whisper_bin": args.whisper_bin,
+    }
+    if args.whisper_model:
+        distill_kwargs["whisper_model"] = args.whisper_model
+    run_distillation(packet, dry_run=args.dry_run, **distill_kwargs)
     profile_outputs = write_profile_outputs(packet, args.profile)
     if profile_outputs:
         update_manifest_status(packet, "dry-run" if args.dry_run else "distilled", outputs=profile_outputs)

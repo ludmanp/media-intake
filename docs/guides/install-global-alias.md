@@ -21,3 +21,8 @@ command -v media-intake
 ```
 
 If `command -v media-intake` does not resolve, ensure `/Users/mark/bin` is on `PATH`.
+For zsh, add this to `~/.zshrc`:
+
+```bash
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+```

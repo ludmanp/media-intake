@@ -9,7 +9,7 @@ from media_intake.sources import SourceKind
 
 
 DEFAULT_WHISPER_BIN = "whisper-cli"
-DEFAULT_WHISPER_MODEL = "models/ggml-large-v3-turbo-q5_0.bin"
+DEFAULT_WHISPER_MODEL = str(Path.home() / ".cache" / "media-intake" / "models" / "ggml-large-v3-turbo-q5_0.bin")
 
 
 @dataclass(frozen=True)

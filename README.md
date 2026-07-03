@@ -21,6 +21,12 @@ media-intake extract /path/to/demo.mp4 --output /tmp/demo-packet --dry-run
 media-intake extract "https://www.youtube.com/watch?v=puen8F_IPkQ" --output /tmp/youtube-packet --metadata-only --profile ai-digest
 ```
 
+The default local Whisper model path is:
+
+```text
+~/.cache/media-intake/models/ggml-large-v3-turbo-q5_0.bin
+```
+
 ## Packet Layout
 
 ```text
@@ -43,6 +49,8 @@ summary, and selected frames.
 media-intake extract <url-or-file> --output <packet-dir>
 media-intake extract <url-or-file> --output <packet-dir> --metadata-only
 media-intake extract <url-or-file> --output <packet-dir> --dry-run
+media-intake extract <url-or-file> --output <packet-dir> --lang ru
+media-intake extract <url-or-file> --output <packet-dir> --whisper-model /path/to/model.bin
 media-intake extract <url-or-file> --output <packet-dir> --profile ai-digest
 media-intake inspect <packet-dir>
 media-intake cleanup <packet-dir> --remove-cache

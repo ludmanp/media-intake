@@ -10,11 +10,14 @@ Supported audio-like extensions include `.mp3`, `.m4a`, `.wav`, `.ogg`, `.oga`, 
 
 ```bash
 media-intake extract /path/to/voice.ogg --output /tmp/voice-packet --dry-run
-media-intake extract /path/to/recording.m4a --output /tmp/recording-packet --overwrite
+media-intake extract /path/to/recording.m4a --output /tmp/recording-packet --lang ru --overwrite
 ```
 
 The audio pipeline extracts a normalized `cache/audio.wav` at 16 kHz mono, then runs
 `whisper-cli` to produce `transcript.srt`.
+
+Use `--lang ru` for Russian speech, `--lang en` for English speech, or omit the option
+to let Whisper auto-detect the language.
 
 ## Telegram-Style Voice Files
 
