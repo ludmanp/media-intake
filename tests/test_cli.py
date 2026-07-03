@@ -26,12 +26,14 @@ class CliTests(unittest.TestCase):
             manifest = json.loads((Path(tmp) / "manifest.json").read_text())
             self.assertEqual(manifest["status"], "metadata-only")
 
-    def test_extract_requires_metadata_only_until_distillation_exists(self):
+    def test_extract_dry_run_plans_distillation(self):
         with tempfile.TemporaryDirectory() as tmp:
-            result = self.run_cli("extract", "/tmp/voice.ogg", "--output", tmp)
+            result = self.run_cli("extract", "/tmp/voice.ogg", "--output", tmp, "--dry-run")
 
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn("media distillation is not available yet", result.stderr)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("+ ffmpeg", result.stdout)
+            manifest = json.loads((Path(tmp) / "manifest.json").read_text())
+            self.assertEqual(manifest["status"], "dry-run")
 
     def test_inspect_prints_summary(self):
         with tempfile.TemporaryDirectory() as tmp:
