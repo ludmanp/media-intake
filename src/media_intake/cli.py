@@ -5,6 +5,7 @@ import shutil
 import sys
 from pathlib import Path
 
+from media_intake.adapters import write_profile_outputs
 from media_intake.dedupe_frames import main as dedupe_frames_main
 from media_intake.distill import run_distillation
 from media_intake.packet import create_packet, inspect_packet, update_manifest_status
@@ -57,10 +58,14 @@ def cmd_extract(args: argparse.Namespace) -> int:
     source = detect_source(args.source)
     packet = create_packet(source, Path(args.output), overwrite=args.overwrite)
     if args.metadata_only:
-        update_manifest_status(packet, "metadata-only", outputs=["metadata.json", "summary.md"])
+        outputs = ["metadata.json", "summary.md", *write_profile_outputs(packet, args.profile)]
+        update_manifest_status(packet, "metadata-only", outputs=outputs)
         print(f"packet: {packet.root}")
         return 0
     run_distillation(packet, dry_run=args.dry_run)
+    profile_outputs = write_profile_outputs(packet, args.profile)
+    if profile_outputs:
+        update_manifest_status(packet, "dry-run" if args.dry_run else "distilled", outputs=profile_outputs)
     print(f"packet: {packet.root}")
     return 0
 
